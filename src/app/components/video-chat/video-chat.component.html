@@ -1,0 +1,14 @@
+<div>
+  <input [(ngModel)]="roomId" placeholder="roomId" />
+  <button (click)="createRoom()">create</button>
+  <button (click)="joinRoom()">join</button>
+  <br />
+  {{ viewRoomId }}
+  <br />
+  <video
+    autoplay
+    #localVideoPlayer
+    id="local_video"
+    style="width: 240px; height: 180px; border: 1px solid black; transform: scale(-1, 1);"
+  ></video>
+</div>
