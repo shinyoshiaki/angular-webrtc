@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { SignalingService } from "../../services/signaling.service";
-import WebRTC from "webrtc4me";
+import WebRTC from "../../../lib";
 
 @Component({
   selector: "app-signaling",
@@ -14,9 +14,7 @@ export class SignalingComponent implements OnInit {
 
   constructor(private service: SignalingService) {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
   createRoom() {
     this.service

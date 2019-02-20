@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import WebRTC from "webrtc4me";
+import WebRTC from "../../lib";
 import client from "socket.io-client";
 import { Observable, observable, Subscriber, Subject } from "rxjs";
 
@@ -21,21 +21,16 @@ export class SignalingService {
     const rtc = new WebRTC({ trickle: true });
     socket.emit("create", { roomId });
     socket.on("sdp", (data: { sdp: string }) => {
-      console.log({ data });
       rtc.setSdp(data.sdp);
     });
 
     rtc.signal = sdp => {
-      console.log({ sdp, roomId });
       socket.emit("sdp", { sdp, roomId });
     };
     rtc.connect = () => {
-      console.log("connect");
       this.subject.next(rtc);
     };
-    rtc.addOnData(message => {
-      console.log({ message });
-    });
+    rtc.addOnData(raw => console.log(raw));
     return this.state;
   }
 
@@ -47,21 +42,16 @@ export class SignalingService {
       rtc.makeOffer();
     });
     socket.on("sdp", (data: { sdp: string }) => {
-      console.log({ data });
       rtc.setSdp(data.sdp);
     });
 
     rtc.signal = sdp => {
-      console.log({ sdp, roomId });
       socket.emit("sdp", { sdp, roomId });
     };
     rtc.connect = () => {
-      console.log("connect");
       this.subject.next(rtc);
     };
-    rtc.addOnData(message => {
-      console.log({ message });
-    });
+    rtc.addOnData(raw => console.log(raw));
     return this.state;
   }
 }

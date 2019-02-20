@@ -1,8 +1,9 @@
-<div>
+<div
+  style="display: flex;height: 4vh;justify-content: space-between;width: 300px"
+>
   <input [(ngModel)]="roomId" placeholder="roomId" />
   <button (click)="createRoom()">create</button>
   <button (click)="joinRoom()">join</button>
-  <br />
-  {{ viewRoomId }}
-  <br />
+  <div style="padding-left: 30px">{{ viewRoomId }}</div>
 </div>
+<br />

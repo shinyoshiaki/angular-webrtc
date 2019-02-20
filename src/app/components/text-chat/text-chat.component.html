@@ -1,4 +1,4 @@
-<label>
+<label style="display: flex;margin: 10px;">
   <textarea
     ref-textarea
     id="story"
@@ -7,7 +7,7 @@
     cols="33"
     [(ngModel)]="myText"
     (ngModelChange)="send()"
+    style="margin: 5px"
   ></textarea>
-  <br />
-  <p>{{ sharedText }}</p>
+  <p style="margin: 5px">{{ sharedText }}</p>
 </label>

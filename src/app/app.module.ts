@@ -6,13 +6,15 @@ import { AppComponent } from "./app.component";
 import { VideoChatComponent } from "./components/video-chat/video-chat.component";
 import { TextChatComponent } from "./components/text-chat/text-chat.component";
 import { SignalingComponent } from "./components/signaling/signaling.component";
+import { DesktopShareComponent } from "./components/desktop-share/desktop-share.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     VideoChatComponent,
     TextChatComponent,
-    SignalingComponent
+    SignalingComponent,
+    DesktopShareComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, NgZone } from "@angular/core";
 import { SignalingService } from "../../services/signaling.service";
-import WebRTC from "webrtc4me";
+import WebRTC from "../../../lib";
 
 @Component({
   selector: "app-text-chat",
