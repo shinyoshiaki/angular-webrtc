@@ -27,12 +27,20 @@ export class DesktopShareComponent implements OnInit {
 
   async setVideo(peer: WebRTC) {
     const stream = new Stream(peer, {
-      get: getLocalDesktop(),
+      get: peer.isOffer ? getLocalDesktop() : undefined,
       label: "desktop"
     });
-    stream.onStream = stream => {
-      this.localStream = stream;
-      this.localVideoPlayer.nativeElement.srcObject = this.localStream;
-    };
+    if (peer.isOffer) {
+      stream.onLocalStream = stream => {
+        this.localStream = stream;
+        this.localVideoPlayer.nativeElement.srcObject = this.localStream;
+      };
+    } else {
+      stream.onStream = stream => {
+        console.log("desktop stream", stream);
+        this.localStream = stream;
+        this.localVideoPlayer.nativeElement.srcObject = this.localStream;
+      };
+    }
   }
 }
