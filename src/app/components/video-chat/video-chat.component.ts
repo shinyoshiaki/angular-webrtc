@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { SignalingService } from "../../services/signaling.service";
+import { Component, OnInit, ViewChild, Input, OnChanges } from "@angular/core";
 import Stream from "webrtc4me/lib/stream";
 import WebRTC from "webrtc4me";
 import { getLocalVideo } from "webrtc4me/lib/utill";
+import { SignalingService } from "../../services/signaling.service";
 
 @Component({
   selector: "app-video-chat",
@@ -11,13 +11,19 @@ import { getLocalVideo } from "webrtc4me/lib/utill";
 })
 export class VideoChatComponent implements OnInit {
   @ViewChild("localVideoPlayer") localVideoPlayer: VideoDom;
-  roomId: string;
-  viewRoomId: string;
-  localStream: any;
+  localStream: any = undefined;
 
   constructor(private service: SignalingService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.service.state.subscribe(peer => {
+      console.log("peer");
+      if (!this.localStream) {
+        console.log("setvideo");
+        this.setVideo(peer);
+      }
+    });
+  }
 
   async setVideo(peer: WebRTC) {
     const video = await getLocalVideo();
@@ -26,21 +32,5 @@ export class VideoChatComponent implements OnInit {
       this.localStream = stream;
       this.localVideoPlayer.nativeElement.srcObject = this.localStream;
     };
-  }
-
-  createRoom() {
-    this.service
-      .createRoom(this.roomId)
-      .subscribe(async peer => this.setVideo(peer));
-    this.viewRoomId = this.roomId;
-    this.roomId = "";
-  }
-
-  joinRoom() {
-    this.service
-      .joinRoom(this.roomId)
-      .subscribe(async peer => this.setVideo(peer));
-    this.viewRoomId = this.roomId;
-    this.roomId = "";
   }
 }
