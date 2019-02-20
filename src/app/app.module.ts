@@ -4,9 +4,10 @@ import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { VideoChatComponent } from "./components/video-chat/video-chat.component";
+import { TextChatComponent } from "./components/text-chat/text-chat.component";
 
 @NgModule({
-  declarations: [AppComponent, VideoChatComponent],
+  declarations: [AppComponent, VideoChatComponent, TextChatComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]

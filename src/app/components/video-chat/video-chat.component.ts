@@ -10,7 +10,7 @@ import { getLocalVideo } from "webrtc4me/lib/utill";
   styleUrls: ["./video-chat.component.css"]
 })
 export class VideoChatComponent implements OnInit {
-  @ViewChild("localVideoPlayer") localVideoPlayer: any;
+  @ViewChild("localVideoPlayer") localVideoPlayer: VideoDom;
   roomId: string;
   viewRoomId: string;
   localStream: any;
