@@ -23,40 +23,42 @@ interface Option {
 
 export default class Stream {
   onStream: (stream: MediaStream) => void;
+  onLocalStream: (stream: MediaStream) => void;
   label: string;
+  initDone = false;
 
   constructor(private peer: WebRTC, private opt: Partial<Option> = {}) {
     this.onStream = _ => {};
+    this.onLocalStream = _ => {};
     this.label = opt.label || "stream";
     this.listen();
+    console.log("start stream", opt.label);
   }
 
   private async listen() {
     const label = "init_" + this.label;
     let stream: MediaStream | undefined;
-    let done = false;
-    this.peer.addOnData(raw => {
-      if (raw.label === label && raw.data === "done") {
-        done = true;
-        if (stream) {
-          console.log("start streaming");
-          this.init(stream);
-        }
-      }
-    }, label);
+
     if (this.opt.get) {
       stream = (await this.opt.get.catch(console.log)) as any;
+      this.onLocalStream(stream!);
     }
-    if (done) {
-      this.init(stream);
-    }
-    if (stream) {
-      console.log("send done");
+    this.peer.addOnData(raw => {
+      if (raw.label === label && raw.data === "done") {
+        this.init(stream);
+      }
+    }, label);
+    setTimeout(() => {
       this.peer.send("done", label);
-    }
+    }, 500);
+    if (stream) this.init(stream);
   }
 
-  private async init(stream: MediaStream) {
+  private async init(stream: MediaStream | undefined) {
+    if (this.initDone) return;
+    this.initDone = true;
+
+    console.log("init", this.opt.label);
     const peer = this.peer;
     const rtc = new WebRTC({ stream });
     if (peer.isOffer) {
@@ -71,7 +73,6 @@ export default class Stream {
       }, this.label);
     } else {
       peer.addOnData(raw => {
-        console.log("label", this.label);
         if (raw.label === this.label + "_offer") {
           rtc.setSdp(JSON.parse(raw.data));
           rtc.signal = sdp => {
@@ -81,7 +82,6 @@ export default class Stream {
       }, this.label);
     }
     rtc.addOnAddTrack(stream => {
-      console.log({ stream });
       this.onStream(stream);
     });
   }

@@ -24,7 +24,10 @@ export class VideoChatComponent implements OnInit {
   }
 
   async setVideo(peer: WebRTC) {
-    const stream = new Stream(peer, { get: getLocalVideo(), label: "video" });
+    const stream = new Stream(peer, {
+      get: getLocalVideo(),
+      label: "videochat"
+    });
     stream.onStream = stream => {
       this.localStream = stream;
       this.localVideoPlayer.nativeElement.srcObject = this.localStream;
