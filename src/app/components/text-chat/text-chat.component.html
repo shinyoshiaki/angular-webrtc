@@ -1,9 +1,13 @@
-<textarea
-  ref-textarea
-  id="story"
-  name="story"
-  rows="5"
-  cols="33"
-  [(ngModel)]="sharedText"
-  (ngModelChange)="log()"
-></textarea>
+<label>
+  <textarea
+    ref-textarea
+    id="story"
+    name="story"
+    rows="5"
+    cols="33"
+    [(ngModel)]="myText"
+    (ngModelChange)="send()"
+  ></textarea>
+  <br />
+  <p>{{ sharedText }}</p>
+</label>

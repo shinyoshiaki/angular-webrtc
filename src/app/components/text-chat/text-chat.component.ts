@@ -1,21 +1,34 @@
-import { Component, OnInit, OnChanges } from "@angular/core";
+import { Component, OnInit, OnChanges, NgZone } from "@angular/core";
+import { SignalingService } from "../../services/signaling.service";
+import WebRTC from "webrtc4me";
 
 @Component({
   selector: "app-text-chat",
   templateUrl: "./text-chat.component.html",
   styleUrls: ["./text-chat.component.css"]
 })
-export class TextChatComponent implements OnInit, OnChanges {
+export class TextChatComponent implements OnInit {
+  myText = "";
   sharedText = "";
-  constructor() {}
+  peer: WebRTC;
+  constructor(private service: SignalingService, private zone: NgZone) {}
 
-  ngOnInit() {}
-
-  log() {
-    console.log(this.sharedText);
+  ngOnInit() {
+    this.service.state.subscribe(peer => {
+      peer.addOnData(raw => {
+        if (raw.label === "chat") {
+          this.zone.run(() => {
+            this.sharedText = raw.data;
+          });
+        }
+      });
+      this.peer = peer;
+    });
   }
 
-  ngOnChanges() {
-    console.log(this.sharedText);
+  send() {
+    if (this.peer) {
+      this.peer.send(this.myText, "chat");
+    }
   }
 }

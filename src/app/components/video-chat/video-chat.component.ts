@@ -17,9 +17,7 @@ export class VideoChatComponent implements OnInit {
 
   ngOnInit() {
     this.service.state.subscribe(peer => {
-      console.log("peer");
       if (!this.localStream) {
-        console.log("setvideo");
         this.setVideo(peer);
       }
     });
