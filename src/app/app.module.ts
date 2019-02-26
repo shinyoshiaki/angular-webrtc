@@ -7,6 +7,8 @@ import { VideoChatComponent } from "./components/video-chat/video-chat.component
 import { TextChatComponent } from "./components/text-chat/text-chat.component";
 import { SignalingComponent } from "./components/signaling/signaling.component";
 import { DesktopShareComponent } from "./components/desktop-share/desktop-share.component";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,7 @@ import { DesktopShareComponent } from "./components/desktop-share/desktop-share.
     SignalingComponent,
     DesktopShareComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
   providers: [],
   bootstrap: [AppComponent]
 })

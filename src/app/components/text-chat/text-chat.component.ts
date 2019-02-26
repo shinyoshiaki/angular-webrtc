@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone } from "@angular/core";
 import { SignalingService } from "../../services/signaling.service";
 import WebRTC from "../../../lib";
 
